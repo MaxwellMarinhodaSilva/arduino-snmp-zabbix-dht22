@@ -1,6 +1,6 @@
 # 🌡️ Monitoramento de Temperatura e Umidade via SNMP (Arduino + Zabbix)
 
-Projeto de IoT e Infraestrutura para monitoramento ambiental em tempo real utilizando Arduino, Ethernet Shield W5100 e sensor DHT22, integrado ao Zabbix através do protocolo SNMP v1.
+Solução de baixo custo para coleta e monitoramento de temperatura e umidade em ambientes de TI, utilizando Arduino + Ethernet Shield W5100 + DHT22 e integração com Zabbix via SNMP.
 
 ---
 
