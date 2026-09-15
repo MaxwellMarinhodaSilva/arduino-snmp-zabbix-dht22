@@ -1,48 +1,55 @@
-# 🌡️ Monitoramento de Temperatura e Umidade via SNMP (Arduino + Zabbix)
+# Monitoramento de Temperatura e Umidade via SNMP
 
-Solução de baixo custo para coleta e monitoramento de temperatura e umidade em ambientes de TI, utilizando Arduino + Ethernet Shield W5100 + DHT22 e integração com Zabbix via SNMP.
+Projeto pessoal para coleta de temperatura e umidade com Arduino, Ethernet Shield W5100 e sensor DHT22, integrado ao Zabbix por SNMP.
 
----
+## Funcionamento
 
-### 🚀 Funcionalidades
+O código implementa um agente SNMP que:
 
-- **Agente SNMP Naitvo:** Responde a requisições GET diretamente do servidor Zabbix.
-- **Leitura Assíncrona:** Leitura do sensor DHT22 a cada 5 segundos salva em memória para evitar *timeout* e congelamento das requisições SNMP.
-- **Baixo Custo:** Solução acessível para monitoramento de salas de servidores, Data Centers e Racks de TI.
+- responde a requisições `GET` do servidor Zabbix;
+- lê o sensor DHT22 a cada cinco segundos;
+- mantém a última leitura válida em memória para evitar bloqueios durante as requisições;
+- disponibiliza OIDs personalizadas para temperatura e umidade.
 
----
+## Hardware
 
-### 🛠️ Hardware Necessário
-
-- Arduino (Uno ou Mega)
+- Arduino Uno ou Mega
 - Ethernet Shield W5100
-- Sensor de Temperatura e Umidade DHT22
-- Cabo de Rede RJ45
+- Sensor DHT22
+- Cabo de rede
 
----
+## Bibliotecas
 
-### 📋 Mapeamento das OIDs SNMP
+- `SPI.h` — incluída na IDE do Arduino
+- `Ethernet.h` — incluída na IDE do Arduino
+- `DHT.h` — biblioteca para o sensor DHT22
+- `Agentuino.h` — agente SNMP para Arduino
 
-| Métrica | OID Personalizada | Tipo de Dado |
-| :--- | :--- | :--- |
-| **Temperatura (°C)** | `1.3.6.1.4.1.12345.1.0` | OCTET STRING |
-| **Umidade (%)** | `1.3.6.1.4.1.12345.2.0` | OCTET STRING |
+## Configuração
 
----
+O exemplo utiliza o endereço IP privado `192.168.0.100`. Ajuste-o no arquivo `zabbix_snmp_dht22.ino` para a rede do ambiente de teste antes da compilação.
 
-### 📦 Bibliotecas Requeridas
+1. Instale as bibliotecas necessárias na IDE do Arduino.
+2. Conecte o Ethernet Shield W5100 e o sensor DHT22 ao Arduino.
+3. Revise o endereço IP definido no código.
+4. Compile e grave o arquivo `zabbix_snmp_dht22.ino`.
+5. No Zabbix, crie um host com interface SNMP usando o endereço configurado.
+6. Adicione os itens de monitoramento com as OIDs abaixo.
 
-Antes de compilar o código na IDE do Arduino, instale as seguintes bibliotecas:
-- `Ethernet.h` (Inclusa na IDE)
-- `SPI.h` (Inclusa na IDE)
-- `DHT sensor library` (por Adafruit)
-- `Agentuino.h` (Biblioteca para agente SNMP no Arduino)
+## OIDs
 
----
+| Métrica | OID | Tipo |
+|---|---|---|
+| Temperatura | `1.3.6.1.4.1.12345.1.0` | `OCTET STRING` |
+| Umidade | `1.3.6.1.4.1.12345.2.0` | `OCTET STRING` |
 
-### ⚙️ Como Configurar no Zabbix
+Os valores são retornados como texto. No Zabbix, use pré-processamento quando for necessário convertê-los para valor numérico.
 
-1. Crie um novo Host no Zabbix com a interface **SNMP**.
-2. Defina o endereço IP estático configurado no código (Padrão: `192.168.0.100`).
-3. Adicione um item de monitoramento com a OID referente à Temperatura ou Umidade.
-4. Defina o tipo de informação como **Texto** ou use um pré-processamento **Trim** para converter o valor em Numérico (Float).
+## Estrutura
+
+- `zabbix_snmp_dht22.ino` — código do agente SNMP e leitura do sensor.
+- `README.md` — documentação do projeto.
+
+## Escopo
+
+O repositório apresenta uma implementação de estudo e não inclui template do Zabbix, diagrama de ligação, screenshots ou validação documentada em ambiente de produção.
