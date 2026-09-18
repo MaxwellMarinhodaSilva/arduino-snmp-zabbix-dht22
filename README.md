@@ -2,6 +2,12 @@
 
 Projeto pessoal para coleta de temperatura e umidade com Arduino, Ethernet Shield W5100 e sensor DHT22, integrado ao Zabbix por SNMP.
 
+<div align="center">
+  <img src="assets/monitoramento-snmp-zabbix.png"
+       alt="Visão geral do projeto de monitoramento de temperatura e umidade via SNMP e Zabbix"
+       width="100%">
+</div>
+
 ## Funcionamento
 
 O código implementa um agente SNMP que:
